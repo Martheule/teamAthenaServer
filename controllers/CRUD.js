@@ -20,7 +20,7 @@ export const findAll = asyncWrapper(async (req, res, next) => {
     hasPreviousPage: page > 1,
   };
 
-  res.json({ results: records.rows, pagination: paginationData });
+  res.json({ ...paginationData, results: records.rows });
 });
 
 export const findOneById = asyncWrapper(async (req, res, next) => {
