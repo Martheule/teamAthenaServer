@@ -61,6 +61,11 @@ The following endpoints are available:
 - **DELETE /api/events/:id** Delete an event by ID.
 - **GET /api/events/upcoming** Get upcoming events.
 
+### Auth
+
+- **POST /api/auth/login** Authenticates the user.
+- **GET /api/auth/profile** Get the logged-in user.
+
 ## Configuration
 
 Environment-specific configurations can be set in `.env` file. take a look at the `example.env` file
