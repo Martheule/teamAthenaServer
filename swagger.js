@@ -20,7 +20,7 @@ const generateSwaggerPaths = (modelName) => ({
         content: {
           "application/json": {
             schema: {
-              $ref: `#/components/request/${modelName}`,
+              $ref: `#/components/requests/${modelName}`,
             },
           },
         },
@@ -31,7 +31,7 @@ const generateSwaggerPaths = (modelName) => ({
           content: {
             "application/json": {
               schema: {
-                $ref: `#/components/response/${modelName}`,
+                $ref: `#/components/responses/${modelName}`,
               },
             },
           },
@@ -73,7 +73,7 @@ const generateSwaggerPaths = (modelName) => ({
               schema: {
                 type: "array",
                 items: {
-                  $ref: `#/components/response/${modelName}`,
+                  $ref: `#/components/responses/${modelName}`,
                 },
               },
             },
@@ -102,7 +102,7 @@ const generateSwaggerPaths = (modelName) => ({
           content: {
             "application/json": {
               schema: {
-                $ref: `#/components/response/${modelName}`,
+                $ref: `#/components/responses/${modelName}`,
               },
             },
           },
@@ -130,7 +130,7 @@ const generateSwaggerPaths = (modelName) => ({
         content: {
           "application/json": {
             schema: {
-              $ref: `#/components/request/${modelName}`,
+              $ref: `#/components/requests/${modelName}`,
             },
           },
         },
@@ -141,7 +141,7 @@ const generateSwaggerPaths = (modelName) => ({
           content: {
             "application/json": {
               schema: {
-                $ref: `#/components/response/${modelName}`,
+                $ref: `#/components/responses/${modelName}`,
               },
             },
           },
@@ -302,7 +302,7 @@ const options = (port) => ({
               description: "Logged-in user's profile",
               content: {
                 "application/json": {
-                  schema: { $ref: `#/components/response/users` },
+                  schema: { $ref: `#/components/responses/users` },
                 },
               },
             },
@@ -365,39 +365,69 @@ const options = (port) => ({
           required: ["title", "date", "organizerId"],
         },
       },
-      request: {
+      requests: {
         users: {
           type: "object",
           properties: {
-            name: { type: "string" },
-            email: { type: "string", format: "email" },
-            password: { type: "string", format: "password" },
+            name: { type: "string", example: "John Doe" },
+            email: {
+              type: "string",
+              format: "email",
+              example: "John@example.com",
+            },
+            password: {
+              type: "string",
+              format: "password",
+              example: "12345678",
+            },
             isActive: { type: "boolean" },
           },
         },
         events: {
           type: "object",
           properties: {
-            title: { type: "string" },
-            description: { type: "string" },
+            title: { type: "string", example: "Event Title" },
+            description: {
+              type: "string",
+              example: "Some Description for the Event",
+            },
             date: { type: "string", format: "date-time" },
-            location: { type: "string" },
-            latitude: { type: "number", format: "float" },
-            longitude: { type: "number", format: "string" },
-            organizerId: { type: "number", format: "integers" },
+            location: {
+              type: "string",
+              example: "Schloßbezirk 10, 76131 Karlsruhe",
+            },
+            latitude: {
+              type: "number",
+              format: "float",
+              example: "8.404746955649602",
+            },
+            longitude: {
+              type: "number",
+              format: "float",
+              example: "49.01438194665317",
+            },
+            organizerId: { type: "integer", example: 1 },
           },
         },
       },
-
-      response: {
+      responses: {
         users: {
           type: "object",
           properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-            email: { type: "string", format: "email" },
+            id: { type: "integer", example: 1 },
+            name: { type: "string", example: "John Doe" },
+            email: {
+              type: "string",
+              format: "email",
+              example: "John@example.com",
+            },
             isActive: { type: "boolean" },
-            password: { type: "string", format: "password" },
+            password: {
+              type: "string",
+              format: "password",
+              example:
+                "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+            },
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" },
           },
@@ -405,14 +435,28 @@ const options = (port) => ({
         events: {
           type: "object",
           properties: {
-            id: { type: "integer" },
-            title: { type: "string" },
-            description: { type: "string" },
+            id: { type: "integer", example: 1 },
+            title: { type: "string", example: "Event Title" },
+            description: {
+              type: "string",
+              example: "Some Description for the Event",
+            },
             date: { type: "string", format: "date-time" },
-            location: { type: "string" },
-            latitude: { type: "number", format: "float" },
-            longitude: { type: "number", format: "string" },
-            organizerId: { type: "number", format: "integers" },
+            location: {
+              type: "string",
+              example: "Schloßbezirk 10, 76131 Karlsruhe",
+            },
+            latitude: {
+              type: "number",
+              format: "float",
+              example: "8.404746955649602",
+            },
+            longitude: {
+              type: "number",
+              format: "float",
+              example: "49.01438194665317",
+            },
+            organizerId: { type: "integer", example: 1 },
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" },
           },
