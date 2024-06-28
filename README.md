@@ -46,20 +46,20 @@ The following endpoints are available:
 
 ### Users
 
-• **POST /api/users** Create a new event.
-• **GET /api/users** Get all events.
-• **GET /api/events/:id** Get a single event by ID.
-• **PUT /api/events/:id** Update an existing event.
-• **DELETE /api/events/:id** Delete an event by ID.
+- **POST /api/users** Create a new event.
+- **GET /api/users** Get all events.
+- **GET /api/events/:id** Get a single event by ID.
+- **PUT /api/events/:id** Update an existing event.
+- **DELETE /api/events/:id** Delete an event by ID.
 
 ### Events
 
-• **POST /api/events** Create a new event.
-• **GET /api/events** Get all events.
-• **GET /api/events/:id** Get a single event by ID.
-• **PUT /api/events/:id** Update an existing event.
-• **DELETE /api/events/:id** Delete an event by ID.
-• **GET /api/events/upcoming** Get upcoming events.
+- **POST /api/events** Create a new event.
+- **GET /api/events** Get all events.
+- **GET /api/events/:id** Get a single event by ID.
+- **PUT /api/events/:id** Update an existing event.
+- **DELETE /api/events/:id** Delete an event by ID.
+- **GET /api/events/upcoming** Get upcoming events.
 
 ## Configuration
 
