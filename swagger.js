@@ -241,6 +241,63 @@ const options = (port) => ({
           },
         },
       },
+      "/api/users": {
+        post: {
+          summary: "User Registration",
+          tags: ["auth"],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    email: {
+                      type: "string",
+                      format: "email",
+                      example: "user@example.com",
+                    },
+                    password: {
+                      type: "string",
+                      format: "password",
+                      example: "password123",
+                    },
+                  },
+                  required: ["email", "password"],
+                },
+              },
+            },
+          },
+          responses: {
+            200: {
+              description: "Successful login",
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: `#/components/responses/users`,
+                  },
+                },
+              },
+            },
+            409: {
+              description: "Conflict. User Already Exists",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: {
+                        type: "string",
+                        example: "User Already Exist",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       "/api/auth/login": {
         post: {
           summary: "User login",
@@ -454,12 +511,6 @@ const options = (port) => ({
               example: "John@example.com",
             },
             isActive: { type: "boolean" },
-            password: {
-              type: "string",
-              format: "password",
-              example:
-                "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
-            },
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" },
           },
