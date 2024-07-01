@@ -297,6 +297,81 @@ const options = (port) => ({
             },
           },
         },
+        get: {
+          summary: `Get all users`,
+          tags: ["users"],
+          parameters: [
+            {
+              in: "query",
+              name: "page",
+              required: false,
+              schema: {
+                type: "integer",
+                minimum: 1,
+                default: 1,
+              },
+              description: "The page number to retrieve.",
+            },
+            {
+              in: "query",
+              name: "limit",
+              required: false,
+              schema: {
+                type: "integer",
+                minimum: 1,
+                default: 10,
+              },
+              description: "The number of items per page.",
+            },
+          ],
+          responses: {
+            200: {
+              description: `List of users`,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      totalCount: {
+                        type: "integer",
+                        description: "Total number of items",
+                        example: 1,
+                      },
+                      totalPages: {
+                        type: "integer",
+                        description: "Total number of pages",
+                        example: 1,
+                      },
+                      currentPage: {
+                        type: "integer",
+                        description: "Current page number",
+                        example: 1,
+                      },
+                      hasNextPage: {
+                        type: "boolean",
+                        description:
+                          "Indicates if there are more pages after the current page",
+                        example: false,
+                      },
+                      hasPreviousPage: {
+                        type: "boolean",
+                        description:
+                          "Indicates if there are more pages before the current page",
+                        example: false,
+                      },
+                      results: {
+                        type: "array",
+                        items: {
+                          $ref: `#/components/responses/users`,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       "/api/auth/login": {
         post: {
