@@ -15,6 +15,11 @@ const generateSwaggerPaths = (modelName) => ({
     post: {
       summary: `Create a new ${modelName}`,
       tags: [modelName],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       requestBody: {
         required: true,
         content: {
@@ -139,14 +144,16 @@ const generateSwaggerPaths = (modelName) => ({
             },
           },
         },
-        404: {
-          description: `${modelName} not found`,
-        },
       },
     },
     put: {
       summary: `Update ${modelName} by ID`,
       tags: [modelName],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       parameters: [
         {
           in: "path",
@@ -186,6 +193,11 @@ const generateSwaggerPaths = (modelName) => ({
     delete: {
       summary: `Delete ${modelName} by ID`,
       tags: [modelName],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       parameters: [
         {
           in: "path",
