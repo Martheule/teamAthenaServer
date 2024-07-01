@@ -248,6 +248,22 @@ const generateSwaggerPaths = (modelName) => ({
         404: {
           description: `${modelName} not found`,
         },
+        500: {
+          description: `FOREIGN KEY constraint failed (must delete related records first)`,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  error: {
+                    type: "string",
+                    example: "SQLITE_CONSTRAINT: FOREIGN KEY constraint failed",
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   },
