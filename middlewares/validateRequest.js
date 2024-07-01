@@ -24,3 +24,9 @@ export const validateRequest = (req, res, next) => {
   if (error) return next(new ErrorResponse(error, 400));
   next();
 };
+
+export const validateUser = (req, res, next) => {
+  const { error } = userSchema.POST.validate(req.body);
+  if (error) return next(new ErrorResponse(error, 400));
+  next();
+};

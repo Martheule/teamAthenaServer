@@ -15,6 +15,11 @@ const generateSwaggerPaths = (modelName) => ({
     post: {
       summary: `Create a new ${modelName}`,
       tags: [modelName],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       requestBody: {
         required: true,
         content: {
@@ -35,6 +40,9 @@ const generateSwaggerPaths = (modelName) => ({
               },
             },
           },
+        },
+        400: {
+          description: `Bad Request, Validation Error`,
         },
       },
     },
@@ -139,14 +147,16 @@ const generateSwaggerPaths = (modelName) => ({
             },
           },
         },
-        404: {
-          description: `${modelName} not found`,
-        },
       },
     },
     put: {
       summary: `Update ${modelName} by ID`,
       tags: [modelName],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       parameters: [
         {
           in: "path",
@@ -180,12 +190,47 @@ const generateSwaggerPaths = (modelName) => ({
         },
         404: {
           description: `${modelName} not found`,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  error: {
+                    type: "string",
+                    example: "Record not found",
+                  },
+                },
+              },
+            },
+          },
+        },
+        400: {
+          description: `Bad Request, Validation Error`,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  error: {
+                    type: "string",
+                    example:
+                      'ValidationError: "keyName" length must be at least x characters long',
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
     delete: {
       summary: `Delete ${modelName} by ID`,
       tags: [modelName],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       parameters: [
         {
           in: "path",
@@ -202,6 +247,22 @@ const generateSwaggerPaths = (modelName) => ({
         },
         404: {
           description: `${modelName} not found`,
+        },
+        500: {
+          description: `FOREIGN KEY constraint failed (must delete related records first)`,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  error: {
+                    type: "string",
+                    example: "SQLITE_CONSTRAINT: FOREIGN KEY constraint failed",
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -286,9 +347,101 @@ const options = (port) => ({
                   schema: {
                     type: "object",
                     properties: {
-                      message: {
+                      error: {
                         type: "string",
                         example: "User Already Exist",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            400: {
+              description: `Bad Request, Validation Error`,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        example:
+                          'ValidationError: "password" length must be at least 8 characters long',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        get: {
+          summary: `Get all users`,
+          tags: ["users"],
+          parameters: [
+            {
+              in: "query",
+              name: "page",
+              required: false,
+              schema: {
+                type: "integer",
+                minimum: 1,
+                default: 1,
+              },
+              description: "The page number to retrieve.",
+            },
+            {
+              in: "query",
+              name: "limit",
+              required: false,
+              schema: {
+                type: "integer",
+                minimum: 1,
+                default: 10,
+              },
+              description: "The number of items per page.",
+            },
+          ],
+          responses: {
+            200: {
+              description: `List of users`,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      totalCount: {
+                        type: "integer",
+                        description: "Total number of items",
+                        example: 1,
+                      },
+                      totalPages: {
+                        type: "integer",
+                        description: "Total number of pages",
+                        example: 1,
+                      },
+                      currentPage: {
+                        type: "integer",
+                        description: "Current page number",
+                        example: 1,
+                      },
+                      hasNextPage: {
+                        type: "boolean",
+                        description:
+                          "Indicates if there are more pages after the current page",
+                        example: false,
+                      },
+                      hasPreviousPage: {
+                        type: "boolean",
+                        description:
+                          "Indicates if there are more pages before the current page",
+                        example: false,
+                      },
+                      results: {
+                        type: "array",
+                        items: {
+                          $ref: `#/components/responses/users`,
+                        },
                       },
                     },
                   },
@@ -365,9 +518,26 @@ const options = (port) => ({
                   schema: {
                     type: "object",
                     properties: {
-                      message: {
+                      error: {
                         type: "string",
                         example: "Invalid email or password.",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            400: {
+              description: `Bad Request, Validation Error`,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        example:
+                          'ValidationError: "password" length must be at least 8 characters long',
                       },
                     },
                   },
