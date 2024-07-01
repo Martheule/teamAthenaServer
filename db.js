@@ -12,8 +12,8 @@ const sequelize = new Sequelize({
 const User = UserModel(sequelize);
 const Event = EventModel(sequelize);
 
-User.hasMany(Event);
-Event.belongsTo(User);
+User.hasMany(Event, { foreignKey: "organizerId" });
+Event.belongsTo(User, { foreignKey: "organizerId" });
 
 try {
   await sequelize.sync({ force: false });
