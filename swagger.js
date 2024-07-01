@@ -71,9 +71,41 @@ const generateSwaggerPaths = (modelName) => ({
           content: {
             "application/json": {
               schema: {
-                type: "array",
-                items: {
-                  $ref: `#/components/responses/${modelName}`,
+                type: "object",
+                properties: {
+                  totalCount: {
+                    type: "integer",
+                    description: "Total number of items",
+                    example: 1,
+                  },
+                  totalPages: {
+                    type: "integer",
+                    description: "Total number of pages",
+                    example: 1,
+                  },
+                  currentPage: {
+                    type: "integer",
+                    description: "Current page number",
+                    example: 1,
+                  },
+                  hasNextPage: {
+                    type: "boolean",
+                    description:
+                      "Indicates if there are more pages after the current page",
+                    example: false,
+                  },
+                  hasPreviousPage: {
+                    type: "boolean",
+                    description:
+                      "Indicates if there are more pages before the current page",
+                    example: false,
+                  },
+                  results: {
+                    type: "array",
+                    items: {
+                      $ref: `#/components/responses/${modelName}`,
+                    },
+                  },
                 },
               },
             },
@@ -201,6 +233,63 @@ const options = (port) => ({
                     type: "array",
                     items: {
                       $ref: `#/components/schemas/events`,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      "/api/users": {
+        post: {
+          summary: "User Registration",
+          tags: ["auth"],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    email: {
+                      type: "string",
+                      format: "email",
+                      example: "user@example.com",
+                    },
+                    password: {
+                      type: "string",
+                      format: "password",
+                      example: "password123",
+                    },
+                  },
+                  required: ["email", "password"],
+                },
+              },
+            },
+          },
+          responses: {
+            200: {
+              description: "Successful login",
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: `#/components/responses/users`,
+                  },
+                },
+              },
+            },
+            409: {
+              description: "Conflict. User Already Exists",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      message: {
+                        type: "string",
+                        example: "User Already Exist",
+                      },
                     },
                   },
                 },
@@ -422,12 +511,6 @@ const options = (port) => ({
               example: "John@example.com",
             },
             isActive: { type: "boolean" },
-            password: {
-              type: "string",
-              format: "password",
-              example:
-                "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
-            },
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" },
           },

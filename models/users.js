@@ -56,12 +56,14 @@ export default (sequelize) => {
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(user.password, salt);
           }
+          if (user.email) user.email = user.email.toLowerCase();
         },
         beforeUpdate: async (user) => {
           if (user.password && user.changed("password")) {
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(user.password, salt);
           }
+          if (user.email) user.email = user.email.toLowerCase();
         },
         afterCreate: (user) => {
           delete user.dataValues.password;

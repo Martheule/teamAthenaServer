@@ -3,21 +3,24 @@ import { eventSchema } from "../schemas/events.js";
 import { ErrorResponse } from "../utils/ErrorResponse.js";
 
 export const validateRequest = (req, res, next) => {
-  const model = req.params.model;
+  const {
+    params: { model },
+    method,
+  } = req;
   let schema;
 
   switch (model) {
     case "users":
-      schema = userSchema;
+      schema = userSchema[method];
       break;
     case "events":
-      schema = eventSchema;
+      schema = eventSchema[method];
       break;
     default:
-      throw new ErrorResponse("Invalid model specified", 404);
+      return next(new ErrorResponse("Invalid model specified", 404));
   }
 
-  const { error } = schema.validate(req.body);
-  if (error) throw new ErrorResponse(error.details[0].message, 404);
+  const { error } = schema?.validate(req.body);
+  if (error) return next(new ErrorResponse(error, 400));
   next();
 };
