@@ -69,3 +69,11 @@ The following endpoints are available:
 ## Configuration
 
 Environment-specific configurations can be set in `.env` file. take a look at the `example.env` file
+
+## Database Seeding
+
+To populate the database with initial data, run the following command:
+
+```bash
+npm run seed
+```
