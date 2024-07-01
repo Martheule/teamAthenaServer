@@ -41,6 +41,9 @@ const generateSwaggerPaths = (modelName) => ({
             },
           },
         },
+        400: {
+          description: `Bad Request, Validation Error`,
+        },
       },
     },
     get: {
@@ -187,6 +190,36 @@ const generateSwaggerPaths = (modelName) => ({
         },
         404: {
           description: `${modelName} not found`,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  error: {
+                    type: "string",
+                    example: "Record not found",
+                  },
+                },
+              },
+            },
+          },
+        },
+        400: {
+          description: `Bad Request, Validation Error`,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  error: {
+                    type: "string",
+                    example:
+                      'ValidationError: "keyName" length must be at least x characters long',
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -298,9 +331,26 @@ const options = (port) => ({
                   schema: {
                     type: "object",
                     properties: {
-                      message: {
+                      error: {
                         type: "string",
                         example: "User Already Exist",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            400: {
+              description: `Bad Request, Validation Error`,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        example:
+                          'ValidationError: "password" length must be at least 8 characters long',
                       },
                     },
                   },
@@ -452,9 +502,26 @@ const options = (port) => ({
                   schema: {
                     type: "object",
                     properties: {
-                      message: {
+                      error: {
                         type: "string",
                         example: "Invalid email or password.",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            400: {
+              description: `Bad Request, Validation Error`,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        example:
+                          'ValidationError: "password" length must be at least 8 characters long',
                       },
                     },
                   },
