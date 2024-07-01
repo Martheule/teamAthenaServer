@@ -22,7 +22,7 @@ router.use("/auth", authRouter);
 router.use("/users", usersRouter);
 router.use("/events", eventsRouter);
 
-router.use("/:model", authenticate, dynamicModelMiddleware);
+router.use("/:model", dynamicModelMiddleware);
 
 router
   .route("/:model")
