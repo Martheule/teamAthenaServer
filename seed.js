@@ -72,8 +72,8 @@ const seedDB = async () => {
     },
   ];
 
-  await User.bulkCreate(users);
-  await Event.bulkCreate(events);
+  await User.bulkCreate(users, { individualHooks: true });
+  await Event.bulkCreate(events, { individualHooks: true });
 };
 
 try {
