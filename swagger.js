@@ -491,7 +491,7 @@ const options = (port) => ({
                         description: "JWT token",
                         example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                       },
-                      payload: {
+                      user: {
                         type: "object",
                         description: "JWT payload",
                         properties: {
@@ -621,7 +621,7 @@ const options = (port) => ({
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" },
           },
-          required: ["title", "date", "organizerId"],
+          required: ["title", "date", "location", "organizerId"],
         },
       },
       requests: {
