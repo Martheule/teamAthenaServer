@@ -665,7 +665,6 @@ const options = (port) => ({
               format: "float",
               example: "49.01438194665317",
             },
-            organizerId: { type: "integer", example: 1 },
           },
         },
       },
