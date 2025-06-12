@@ -1,126 +1,124 @@
-import swaggerUi from "swagger-ui-express";
-import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 
 const swaggerDefinition = {
-  openapi: "3.0.1",
+  openapi: '3.0.1',
   info: {
-    title: "Node.js Express API",
-    description: "API for CRUD operations on various models",
-    version: "1.0.0",
-  },
+    title: 'Events API',
+    description: 'API documentation for the Upcoming Events application',
+    version: '1.0.0'
+  }
 };
 
-const generateSwaggerPaths = (modelName) => ({
+const generateSwaggerPaths = modelName => ({
   [`/api/${modelName}`]: {
     post: {
       summary: `Create a new ${modelName}`,
       tags: [modelName],
       security: [
         {
-          bearerAuth: [],
-        },
+          bearerAuth: []
+        }
       ],
       requestBody: {
         required: true,
         content: {
-          "application/json": {
+          'application/json': {
             schema: {
-              $ref: `#/components/requests/${modelName}`,
-            },
-          },
-        },
+              $ref: `#/components/requests/${modelName}`
+            }
+          }
+        }
       },
       responses: {
         201: {
           description: `${modelName} created`,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                $ref: `#/components/responses/${modelName}`,
-              },
-            },
-          },
+                $ref: `#/components/responses/${modelName}`
+              }
+            }
+          }
         },
         400: {
-          description: `Bad Request, Validation Error`,
-        },
-      },
+          description: `Bad Request, Validation Error`
+        }
+      }
     },
     get: {
       summary: `Get all ${modelName}`,
       tags: [modelName],
       parameters: [
         {
-          in: "query",
-          name: "page",
+          in: 'query',
+          name: 'page',
           required: false,
           schema: {
-            type: "integer",
+            type: 'integer',
             minimum: 1,
-            default: 1,
+            default: 1
           },
-          description: "The page number to retrieve.",
+          description: 'The page number to retrieve.'
         },
         {
-          in: "query",
-          name: "limit",
+          in: 'query',
+          name: 'limit',
           required: false,
           schema: {
-            type: "integer",
+            type: 'integer',
             minimum: 1,
-            default: 10,
+            default: 10
           },
-          description: "The number of items per page.",
-        },
+          description: 'The number of items per page.'
+        }
       ],
       responses: {
         200: {
           description: `List of ${modelName}`,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                type: "object",
+                type: 'object',
                 properties: {
                   totalCount: {
-                    type: "integer",
-                    description: "Total number of items",
-                    example: 1,
+                    type: 'integer',
+                    description: 'Total number of items',
+                    example: 1
                   },
                   totalPages: {
-                    type: "integer",
-                    description: "Total number of pages",
-                    example: 1,
+                    type: 'integer',
+                    description: 'Total number of pages',
+                    example: 1
                   },
                   currentPage: {
-                    type: "integer",
-                    description: "Current page number",
-                    example: 1,
+                    type: 'integer',
+                    description: 'Current page number',
+                    example: 1
                   },
                   hasNextPage: {
-                    type: "boolean",
-                    description:
-                      "Indicates if there are more pages after the current page",
-                    example: false,
+                    type: 'boolean',
+                    description: 'Indicates if there are more pages after the current page',
+                    example: false
                   },
                   hasPreviousPage: {
-                    type: "boolean",
-                    description:
-                      "Indicates if there are more pages before the current page",
-                    example: false,
+                    type: 'boolean',
+                    description: 'Indicates if there are more pages before the current page',
+                    example: false
                   },
                   results: {
-                    type: "array",
+                    type: 'array',
                     items: {
-                      $ref: `#/components/responses/${modelName}`,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
+                      $ref: `#/components/responses/${modelName}`
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   [`/api/${modelName}/{id}`]: {
     get: {
@@ -128,598 +126,595 @@ const generateSwaggerPaths = (modelName) => ({
       tags: [modelName],
       parameters: [
         {
-          in: "path",
-          name: "id",
+          in: 'path',
+          name: 'id',
           required: true,
           schema: {
-            type: "string",
-          },
-        },
+            type: 'string'
+          }
+        }
       ],
       responses: {
         200: {
           description: `${modelName} details`,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                $ref: `#/components/responses/${modelName}`,
-              },
-            },
-          },
-        },
-      },
+                $ref: `#/components/responses/${modelName}`
+              }
+            }
+          }
+        }
+      }
     },
     put: {
       summary: `Update ${modelName} by ID`,
       tags: [modelName],
       security: [
         {
-          bearerAuth: [],
-        },
+          bearerAuth: []
+        }
       ],
       parameters: [
         {
-          in: "path",
-          name: "id",
+          in: 'path',
+          name: 'id',
           required: true,
           schema: {
-            type: "string",
-          },
-        },
+            type: 'string'
+          }
+        }
       ],
       requestBody: {
         required: true,
         content: {
-          "application/json": {
+          'application/json': {
             schema: {
-              $ref: `#/components/requests/${modelName}`,
-            },
-          },
-        },
+              $ref: `#/components/requests/${modelName}`
+            }
+          }
+        }
       },
       responses: {
         200: {
           description: `${modelName} updated`,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                $ref: `#/components/responses/${modelName}`,
-              },
-            },
-          },
+                $ref: `#/components/responses/${modelName}`
+              }
+            }
+          }
         },
         404: {
           description: `${modelName} not found`,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                type: "object",
+                type: 'object',
                 properties: {
                   error: {
-                    type: "string",
-                    example: "Record not found",
-                  },
-                },
-              },
-            },
-          },
+                    type: 'string',
+                    example: 'Record not found'
+                  }
+                }
+              }
+            }
+          }
         },
         400: {
           description: `Bad Request, Validation Error`,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                type: "object",
+                type: 'object',
                 properties: {
                   error: {
-                    type: "string",
-                    example:
-                      'ValidationError: "keyName" length must be at least x characters long',
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+                    type: 'string',
+                    example: 'ValidationError: "keyName" length must be at least x characters long'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     delete: {
       summary: `Delete ${modelName} by ID`,
       tags: [modelName],
       security: [
         {
-          bearerAuth: [],
-        },
+          bearerAuth: []
+        }
       ],
       parameters: [
         {
-          in: "path",
-          name: "id",
+          in: 'path',
+          name: 'id',
           required: true,
           schema: {
-            type: "string",
-          },
-        },
+            type: 'string'
+          }
+        }
       ],
       responses: {
         204: {
-          description: `${modelName} deleted`,
+          description: `${modelName} deleted`
         },
         404: {
-          description: `${modelName} not found`,
+          description: `${modelName} not found`
         },
         500: {
           description: `FOREIGN KEY constraint failed (must delete related records first)`,
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                type: "object",
+                type: 'object',
                 properties: {
                   error: {
-                    type: "string",
-                    example: "SQLITE_CONSTRAINT: FOREIGN KEY constraint failed",
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+                    type: 'string',
+                    example: 'SQLITE_CONSTRAINT: FOREIGN KEY constraint failed'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 });
 
-const options = (port) => ({
+const options = port => ({
   swaggerDefinition: {
     ...swaggerDefinition,
     servers: [
       {
         url: `http://localhost:${port}`,
-        description: "Local server",
-      },
+        description: 'Local server'
+      }
     ],
     paths: {
-      ...generateSwaggerPaths("users"),
-      ...generateSwaggerPaths("events"),
-      "/api/events/upcoming": {
+      ...generateSwaggerPaths('users'),
+      ...generateSwaggerPaths('events'),
+      '/api/events/upcoming': {
         get: {
           summary: `Get all upcoming events`,
-          tags: ["events"],
+          tags: ['events'],
           responses: {
             200: {
               description: `List of upcoming events`,
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    type: "array",
+                    type: 'array',
                     items: {
-                      $ref: `#/components/schemas/events`,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+                      $ref: `#/components/schemas/events`
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
-      "/api/users": {
+      '/api/users': {
         post: {
-          summary: "User Registration",
-          tags: ["auth"],
+          summary: 'User Registration',
+          tags: ['auth'],
           requestBody: {
             required: true,
             content: {
-              "application/json": {
+              'application/json': {
                 schema: {
-                  type: "object",
+                  type: 'object',
                   properties: {
                     email: {
-                      type: "string",
-                      format: "email",
-                      example: "user@example.com",
+                      type: 'string',
+                      format: 'email',
+                      example: 'user@example.com'
                     },
                     password: {
-                      type: "string",
-                      format: "password",
-                      example: "password123",
-                    },
+                      type: 'string',
+                      format: 'password',
+                      example: 'password123'
+                    }
                   },
-                  required: ["email", "password"],
-                },
-              },
-            },
+                  required: ['email', 'password']
+                }
+              }
+            }
           },
           responses: {
             200: {
-              description: "Successful login",
+              description: 'Successful login',
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    $ref: `#/components/responses/users`,
-                  },
-                },
-              },
+                    $ref: `#/components/responses/users`
+                  }
+                }
+              }
             },
             409: {
-              description: "Conflict. User Already Exists",
+              description: 'Conflict. User Already Exists',
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       error: {
-                        type: "string",
-                        example: "User Already Exist",
-                      },
-                    },
-                  },
-                },
-              },
+                        type: 'string',
+                        example: 'User Already Exist'
+                      }
+                    }
+                  }
+                }
+              }
             },
             400: {
               description: `Bad Request, Validation Error`,
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       error: {
-                        type: "string",
+                        type: 'string',
                         example:
-                          'ValidationError: "password" length must be at least 8 characters long',
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
+                          'ValidationError: "password" length must be at least 8 characters long'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
         get: {
           summary: `Get all users`,
-          tags: ["users"],
+          tags: ['users'],
           parameters: [
             {
-              in: "query",
-              name: "page",
+              in: 'query',
+              name: 'page',
               required: false,
               schema: {
-                type: "integer",
+                type: 'integer',
                 minimum: 1,
-                default: 1,
+                default: 1
               },
-              description: "The page number to retrieve.",
+              description: 'The page number to retrieve.'
             },
             {
-              in: "query",
-              name: "limit",
+              in: 'query',
+              name: 'limit',
               required: false,
               schema: {
-                type: "integer",
+                type: 'integer',
                 minimum: 1,
-                default: 10,
+                default: 10
               },
-              description: "The number of items per page.",
-            },
+              description: 'The number of items per page.'
+            }
           ],
           responses: {
             200: {
               description: `List of users`,
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       totalCount: {
-                        type: "integer",
-                        description: "Total number of items",
-                        example: 1,
+                        type: 'integer',
+                        description: 'Total number of items',
+                        example: 1
                       },
                       totalPages: {
-                        type: "integer",
-                        description: "Total number of pages",
-                        example: 1,
+                        type: 'integer',
+                        description: 'Total number of pages',
+                        example: 1
                       },
                       currentPage: {
-                        type: "integer",
-                        description: "Current page number",
-                        example: 1,
+                        type: 'integer',
+                        description: 'Current page number',
+                        example: 1
                       },
                       hasNextPage: {
-                        type: "boolean",
-                        description:
-                          "Indicates if there are more pages after the current page",
-                        example: false,
+                        type: 'boolean',
+                        description: 'Indicates if there are more pages after the current page',
+                        example: false
                       },
                       hasPreviousPage: {
-                        type: "boolean",
-                        description:
-                          "Indicates if there are more pages before the current page",
-                        example: false,
+                        type: 'boolean',
+                        description: 'Indicates if there are more pages before the current page',
+                        example: false
                       },
                       results: {
-                        type: "array",
+                        type: 'array',
                         items: {
-                          $ref: `#/components/responses/users`,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+                          $ref: `#/components/responses/users`
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
-      "/api/auth/login": {
+      '/api/auth/login': {
         post: {
-          summary: "User login",
-          tags: ["auth"],
+          summary: 'User login',
+          tags: ['auth'],
           requestBody: {
             required: true,
             content: {
-              "application/json": {
+              'application/json': {
                 schema: {
-                  type: "object",
+                  type: 'object',
                   properties: {
                     email: {
-                      type: "string",
-                      format: "email",
-                      example: "user@example.com",
+                      type: 'string',
+                      format: 'email',
+                      example: 'user@example.com'
                     },
                     password: {
-                      type: "string",
-                      format: "password",
-                      example: "password123",
-                    },
+                      type: 'string',
+                      format: 'password',
+                      example: 'password123'
+                    }
                   },
-                  required: ["email", "password"],
-                },
-              },
-            },
+                  required: ['email', 'password']
+                }
+              }
+            }
           },
           responses: {
             200: {
-              description: "Successful login",
+              description: 'Successful login',
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       token: {
-                        type: "string",
-                        description: "JWT token",
-                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                        type: 'string',
+                        description: 'JWT token',
+                        example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
                       },
                       user: {
-                        type: "object",
-                        description: "JWT payload",
+                        type: 'object',
+                        description: 'JWT payload',
                         properties: {
                           id: {
-                            type: "integer",
-                            example: "1",
+                            type: 'integer',
+                            example: '1'
                           },
                           email: {
-                            type: "string",
-                            format: "email",
-                            example: "user@example.com",
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
+                            type: 'string',
+                            format: 'email',
+                            example: 'user@example.com'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
             403: {
-              description: "Forbidden. Invalid email or password",
+              description: 'Forbidden. Invalid email or password',
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       error: {
-                        type: "string",
-                        example: "Invalid email or password.",
-                      },
-                    },
-                  },
-                },
-              },
+                        type: 'string',
+                        example: 'Invalid email or password.'
+                      }
+                    }
+                  }
+                }
+              }
             },
             400: {
               description: `Bad Request, Validation Error`,
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       error: {
-                        type: "string",
+                        type: 'string',
                         example:
-                          'ValidationError: "password" length must be at least 8 characters long',
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
+                          'ValidationError: "password" length must be at least 8 characters long'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
-      "/api/auth/profile": {
+      '/api/auth/profile': {
         get: {
-          summary: "Get logged-in user profile",
-          tags: ["auth"],
+          summary: 'Get logged-in user profile',
+          tags: ['auth'],
           security: [
             {
-              bearerAuth: [],
-            },
+              bearerAuth: []
+            }
           ],
           responses: {
             200: {
               description: "Logged-in user's profile",
               content: {
-                "application/json": {
-                  schema: { $ref: `#/components/responses/users` },
-                },
-              },
+                'application/json': {
+                  schema: { $ref: `#/components/responses/users` }
+                }
+              }
             },
             403: {
-              description: "Unauthorized. Invalid or missing token.",
+              description: 'Unauthorized. Invalid or missing token.',
               content: {
-                "application/json": {
+                'application/json': {
                   schema: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       message: {
-                        type: "string",
-                        example: "Forbidden",
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+                        type: 'string',
+                        example: 'Forbidden'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     components: {
       securitySchemes: {
         bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-        },
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT'
+        }
       },
       schemas: {
         users: {
-          type: "object",
+          type: 'object',
           properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-            email: { type: "string", format: "email" },
-            password: { type: "string", format: "password" },
-            isActive: { type: "boolean" },
-            createdAt: { type: "string", format: "date-time" },
-            updatedAt: { type: "string", format: "date-time" },
+            id: { type: 'integer' },
+            name: { type: 'string' },
+            email: { type: 'string', format: 'email' },
+            password: { type: 'string', format: 'password' },
+            isActive: { type: 'boolean' },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' }
           },
-          required: ["email", "password"],
+          required: ['email', 'password']
         },
         events: {
-          type: "object",
+          type: 'object',
           properties: {
-            id: { type: "integer" },
-            title: { type: "string" },
-            description: { type: "string" },
-            date: { type: "string", format: "date-time" },
-            location: { type: "string" },
-            latitude: { type: "number", format: "float" },
-            longitude: { type: "number", format: "string" },
-            organizerId: { type: "number", format: "integers" },
-            createdAt: { type: "string", format: "date-time" },
-            updatedAt: { type: "string", format: "date-time" },
+            id: { type: 'integer' },
+            title: { type: 'string' },
+            description: { type: 'string' },
+            date: { type: 'string', format: 'date-time' },
+            location: { type: 'string' },
+            latitude: { type: 'number', format: 'float' },
+            longitude: { type: 'number', format: 'string' },
+            organizerId: { type: 'number', format: 'integers' },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' }
           },
-          required: ["title", "date", "location", "organizerId"],
-        },
+          required: ['title', 'date', 'location', 'organizerId']
+        }
       },
       requests: {
         users: {
-          type: "object",
+          type: 'object',
           properties: {
-            name: { type: "string", example: "John Doe" },
+            name: { type: 'string', example: 'John Doe' },
             email: {
-              type: "string",
-              format: "email",
-              example: "John@example.com",
+              type: 'string',
+              format: 'email',
+              example: 'John@example.com'
             },
             password: {
-              type: "string",
-              format: "password",
-              example: "12345678",
+              type: 'string',
+              format: 'password',
+              example: '12345678'
             },
-            isActive: { type: "boolean" },
-          },
+            isActive: { type: 'boolean' }
+          }
         },
         events: {
-          type: "object",
+          type: 'object',
           properties: {
-            title: { type: "string", example: "Event Title" },
+            title: { type: 'string', example: 'Event Title' },
             description: {
-              type: "string",
-              example: "Some Description for the Event",
+              type: 'string',
+              example: 'Some Description for the Event'
             },
-            date: { type: "string", format: "date-time" },
+            date: { type: 'string', format: 'date-time' },
             location: {
-              type: "string",
-              example: "Schloßbezirk 10, 76131 Karlsruhe",
+              type: 'string',
+              example: 'Schloßbezirk 10, 76131 Karlsruhe'
             },
             latitude: {
-              type: "number",
-              format: "float",
-              example: "8.404746955649602",
+              type: 'number',
+              format: 'float',
+              example: '8.404746955649602'
             },
             longitude: {
-              type: "number",
-              format: "float",
-              example: "49.01438194665317",
-            },
-          },
-        },
+              type: 'number',
+              format: 'float',
+              example: '49.01438194665317'
+            }
+          }
+        }
       },
       responses: {
         users: {
-          type: "object",
+          type: 'object',
           properties: {
-            id: { type: "integer", example: 1 },
-            name: { type: "string", example: "John Doe" },
+            id: { type: 'integer', example: 1 },
+            name: { type: 'string', example: 'John Doe' },
             email: {
-              type: "string",
-              format: "email",
-              example: "John@example.com",
+              type: 'string',
+              format: 'email',
+              example: 'John@example.com'
             },
-            isActive: { type: "boolean" },
-            createdAt: { type: "string", format: "date-time" },
-            updatedAt: { type: "string", format: "date-time" },
-          },
+            isActive: { type: 'boolean' },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' }
+          }
         },
         events: {
-          type: "object",
+          type: 'object',
           properties: {
-            id: { type: "integer", example: 1 },
-            title: { type: "string", example: "Event Title" },
+            id: { type: 'integer', example: 1 },
+            title: { type: 'string', example: 'Event Title' },
             description: {
-              type: "string",
-              example: "Some Description for the Event",
+              type: 'string',
+              example: 'Some Description for the Event'
             },
-            date: { type: "string", format: "date-time" },
+            date: { type: 'string', format: 'date-time' },
             location: {
-              type: "string",
-              example: "Schloßbezirk 10, 76131 Karlsruhe",
+              type: 'string',
+              example: 'Schloßbezirk 10, 76131 Karlsruhe'
             },
             latitude: {
-              type: "number",
-              format: "float",
-              example: "8.404746955649602",
+              type: 'number',
+              format: 'float',
+              example: '8.404746955649602'
             },
             longitude: {
-              type: "number",
-              format: "float",
-              example: "49.01438194665317",
+              type: 'number',
+              format: 'float',
+              example: '49.01438194665317'
             },
-            organizerId: { type: "integer", example: 1 },
-            createdAt: { type: "string", format: "date-time" },
-            updatedAt: { type: "string", format: "date-time" },
-          },
-        },
-      },
-    },
+            organizerId: { type: 'integer', example: 1 },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' }
+          }
+        }
+      }
+    }
   },
-  apis: [],
+  apis: []
 });
 
 export const setupSwagger = (app, port) => {
   const swaggerSpec = swaggerJsdoc(options(port));
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };
