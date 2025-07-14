@@ -6,14 +6,14 @@ import { ErrorResponse } from "../utils/ErrorResponse.js";
 
 export const register = asyncWrapper(async (req, res, next) => {
   const {
-    body: { email, password },
+    body: { email, password, name },
   } = req;
 
   const found = await User.findOne({ where: { email } });
 
   if (found) throw new ErrorResponse("User Already Exist", 409);
 
-  const user = await User.create({ email, password });
+  const user = await User.create({ email, password, name });
 
   res.json(user);
 });
@@ -33,7 +33,7 @@ export const login = asyncWrapper(async (req, res, next) => {
   if (!isMatch)
     throw new ErrorResponse("Forbidden. Invalid email or password", 403);
 
-  const payload = { id: user.id, email: user.email };
+  const payload = { id: user.id, email: user.email, name: user.name };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET ?? "secret", {
     expiresIn: 3600000,
